@@ -30,7 +30,7 @@ function safeTransferFrom(
 }
 
 function _payRoyaltyFee() internal {
-  require(msg.value &gt; _royaltyFee, &quot;Royalty Fee is not included in transaction&quot;);
+  require(msg.value &gt;= _royaltyFee, &quot;Royalty Fee is not included in transaction&quot;);
   _royaltyReceiver.transfer(_royaltyFee);
 }
 </code></pre><p>And that&rsquo;s it! We will have to somehow set <code>_royaltyFee</code> and <code>_royaltyReceiver</code>, eg. on NFT deployment.</p><p>Now the <code>safeTransferFrom</code> function will revert if the transaction did not include the royalty fee or could not transfer the fee to the <code>_royaltyReceiver</code>.</p><p>With this simple implementation, we can make sure that the owner of an NFT cannot change if the royalty fee was not paid without having to trust anyone, neither buyer or seller or intermediaries on behalf - the payment cannot be circumvented as it is &ldquo;hard wired&rdquo; into the code of the NFT Smart Contract.</p><p>These are all implementation steps to implement this feature in a Stablecoin chain. For a non-Stablecoin chain, Token transfers would have to be used, which increases the complexity a bit, though the logic would stay exactly the same.</p></main><footer role=contentinfo><div><label for=themer>dark theme: <input type=checkbox id=themer class=vh>
